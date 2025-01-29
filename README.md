@@ -30,7 +30,7 @@ Le but de ce projet est de concevoir et implémenter un Data Warehouse (DW) et d
 
 ## 📥 Installation
 ### 1️⃣ Prérequis
-- [Neo4j Desktop](https://neo4j.com/download/) ou Docker
+- [Neo4j Desktop](https://neo4j.com/download/)
 - Python 3.8+
 
 ### 2️⃣ Installation des dépendances
