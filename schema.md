@@ -9,6 +9,10 @@ classDiagram
     class Director{
         String Name
     }
+<<<<<<< HEAD
+
+=======
+>>>>>>> a374373bf82c1f352c4bcbc44935e3976c350bc3
     class Object{
         int id
         String genre
