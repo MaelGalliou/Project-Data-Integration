@@ -1,82 +1,86 @@
 ////////////////// Import Nodes //////////////////
 
-// 1️⃣ Import Shows
-CREATE INDEX show_id_index FOR (s:Show) ON (s.show_id);
+// 1️⃣ Import Vendors
+CREATE INDEX vendor_id_index FOR (v:Vendor) ON (v.vendor_id);
 
-LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Nodes/film.csv' AS row
-MERGE (s:Show {show_id: row.show_id})
-SET s.title = row.title,
-    s.date_added = row.date_added,
-    s.release_year = toInteger(row.release_year),
-    s.rating = row.rating,
-    s.description = row.description;
+LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Nodes/vendor.csv' AS row
+MERGE (v:Vendor {vendor_id: row.vendor_id});
 
 
-// 2️⃣ Import Categories
-CREATE INDEX categorie_id_index FOR (c:Categorie) ON (c.categorie_id);
+// 2️⃣ Import Trips
+CREATE INDEX trip_id_index FOR (t:Trip) ON (t.trip_id);
 
-LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Nodes/categorie.csv' AS row
-MERGE (c:Categorie {categorie_id: row.categorie_id})
-SET c.categorie_name = row.categorie;
-
-
-// 3️⃣ Import Countries
-CREATE INDEX country_id_index FOR (c:Country) ON (c.country_id);
-
-LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Nodes/country.csv' AS row
-MERGE (c:Country {country_id: row.country_id})
-SET c.country_name = row.country;
+LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Nodes/trip.csv' AS row
+MERGE (t:Trip {trip_id: row.trip_id})
+SET t.tpep_pickup_datetime = row.tpep_pickup_datetime,
+    t.tpep_dropoff_datetime = row.tpep_dropoff_datetime,
+    t.trip_distance = toFloat(row.trip_distance),
+    t.RatecodeID = row.RatecodeID,
+    t.store_and_fwd_flag = row.store_and_fwd_flag;
 
 
-// 4️⃣ Import Casts
-CREATE INDEX cast_id_index FOR (c:Cast) ON (c.cast_id);
+// 3️⃣ Import Passenger Groups
+CREATE INDEX passenger_count_id_index FOR (p:PassengerGroup) ON (p.passenger_count_id);
 
-LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Nodes/cast.csv' AS row
-MERGE (c:Cast {cast_id: row.cast_id})
-SET c.cast_name = row.cast;
+LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Nodes/passenger_group.csv' AS row
+MERGE (p:PassengerGroup {passenger_count_id: toInteger(row.passenger_count_id)})
+SET p.passenger_count = toInteger(row.passenger_count);
 
+// 4️⃣ Import Locations
+CREATE INDEX location_id_index FOR (l:Location) ON (l.location_id);
 
-// 5️⃣ Import Directors
-CREATE INDEX director_id_index FOR (d:Director) ON (d.director_id);
-
-LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Nodes/director.csv' AS row
-MERGE (d:Director {director_id: row.director_id})
-SET d.director_name = row.director;
+LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Nodes/location.csv' AS row
+MERGE (l:Location {location_id: row.location_id});
 
 
-// 6️⃣ Import Types
-CREATE INDEX type_id_index FOR (t:Type) ON (t.type_id);
+// 5️⃣ Import Payment Types
+CREATE INDEX payment_type_id_index FOR (p:PaymentType) ON (p.payment_type_id);
 
-LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Nodes/type.csv' AS row
-MERGE (t:Type {type_id: row.type_id})
-SET t.type_name = row.type;
+LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Nodes/payement_type.csv' AS row
+MERGE (p:PaymentType {payment_type_id: row.payment_type_id})
+SET p.payment_type_description = row.payment_type_description;
 
 
 
-////////////////// Import Relation //////////////////
 
-// 1️⃣ Relation between Show and Cast
-LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Relations/film-cast.csv' AS row
-MATCH (s:Show {show_id: row.show_id}), (c:Cast {cast_id: row.cast_id})
-MERGE (s)-[:HAS_CAST]->(c);
 
-// 2️⃣ Relation between Show and Categorie
-LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Relations/film-categorie.csv' AS row
-MATCH (s:Show {show_id: row.show_id}), (c:Categorie {categorie_id: row.categorie_id})
-MERGE (s)-[:HAS_CATEGORIE]->(c);
 
-// 3️⃣ Relation between Show and Country
-LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Relations/film-country.csv' AS row
-MATCH (s:Show {show_id: row.show_id}), (c:Country {country_id: row.country_id})
-MERGE (s)-[:HAS_COUNTRY]->(c);
+////////////////// Import Relations //////////////////
 
-// 4️⃣ Relation between Show and Director
-LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Relations/film-director.csv' AS row
-MATCH (s:Show {show_id: row.show_id}), (d:Director {director_id: row.director_id})
-MERGE (s)-[:HAS_DIRECTOR]->(d);
+// 1️⃣ Relation between Trip and Vendor
+LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Relations/trip-vendor.csv' AS row
+MATCH (t:Trip {trip_id: row.trip_id}), (v:Vendor {vendor_id: row.vendor_id})
+MERGE (v)-[:PROVIDED]->(t);
 
-// 5️⃣ Relation between Show and Type
-LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Relations/film-type.csv' AS row
-MATCH (s:Show {show_id: row.show_id}), (t:Type {type_id: toInteger(row.type_id)})
-MERGE (s)-[:HAS_TYPE {duration: row.duration}]->(t);
 
+// 2️⃣ Relation between Trip and Passenger Group
+LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Relations/trip-passenger_group.csv' AS row
+MATCH (t:Trip {trip_id: row.trip_id}), (p:PassengerGroup {passenger_count_id: row.passenger_count_id})
+MERGE (t)-[:HAS_PASSENGERS]->(p);
+
+
+// 3️⃣ Relation between Trip and Start Location
+LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Relations/trip-location_start.csv' AS row
+MATCH (t:Trip {trip_id: row.trip_id}), (l:Location {location_id: row.location_id})
+MERGE (t)-[:STARTED_AT]->(l);
+
+
+// 4️⃣ Relation between Trip and End Location
+LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Relations/trip-location_end.csv' AS row
+MATCH (t:Trip {trip_id: row.trip_id}), (l:Location {location_id: row.location_id})
+MERGE (t)-[:ENDED_AT]->(l);
+
+
+// 5️⃣ Relation between Trip and Payment Type with cost details
+LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Relations/trip-payement.csv' AS row
+MATCH (t:Trip {trip_id: row.trip_id}), (p:PaymentType {payment_type_id: row.payment_type_id})
+MERGE (t)-[:PAID_FOR {
+    fare_amount: toFloat(row.fare_amount),
+    extra: toFloat(row.extra),
+    mta_tax: toFloat(row.mta_tax),
+    tip_amount: toFloat(row.tip_amount),
+    tolls_amount: toFloat(row.tolls_amount),
+    improvement_surcharge: toFloat(row.improvement_surcharge),
+    congestion_surcharge: toFloat(row.congestion_surcharge),
+    total_amount: toFloat(row.total_amount)
+}]->(p);

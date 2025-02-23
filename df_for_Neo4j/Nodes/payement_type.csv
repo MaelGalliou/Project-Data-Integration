@@ -1,0 +1,5 @@
+payment_type_id,payment_type_description
+1.0,Credit card
+2.0,Cash
+3.0,No charge
+4.0,Dispute
