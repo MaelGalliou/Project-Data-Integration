@@ -23,7 +23,7 @@ SET t.tpep_pickup_datetime = row.tpep_pickup_datetime,
 CREATE INDEX passenger_count_id_index FOR (p:PassengerGroup) ON (p.passenger_count_id);
 
 LOAD CSV WITH HEADERS FROM 'file:///df_for_Neo4j/Nodes/passenger_group.csv' AS row
-MERGE (p:PassengerGroup {passenger_count_id: toInteger(row.passenger_count_id)})
+MERGE (p:PassengerGroup {passenger_count_id: row.passenger_count_id})
 SET p.passenger_count = toInteger(row.passenger_count);
 
 // 4️⃣ Import Locations
@@ -84,3 +84,17 @@ MERGE (t)-[:PAID_FOR {
     congestion_surcharge: toFloat(row.congestion_surcharge),
     total_amount: toFloat(row.total_amount)
 }]->(p);
+
+
+
+
+
+////////////////// View Relations //////////////////
+
+
+MATCH (t:Trip)-[:STARTED_AT]->(start:Location {location_id: '48'})
+MATCH (t)-[:ENDED_AT]->(end:Location {location_id: '107'})
+OPTIONAL MATCH (t)-[:PROVIDED]->(v:Vendor)
+OPTIONAL MATCH (t)-[:HAS_PASSENGERS]->(p:PassengerGroup)
+OPTIONAL MATCH (t)-[:PAID_FOR]->(pay:PaymentType)
+RETURN t, start, end, v, p, pay
