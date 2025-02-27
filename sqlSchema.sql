@@ -26,7 +26,7 @@ CREATE TABLE dim_vendor (
 
 CREATE TABLE dim_location (
     location_id INT PRIMARY KEY,
-    location_name VARCHAR(255)  -- Optional: Add a city/area name
+    location_name VARCHAR(255)
 );
 
 CREATE TABLE dim_payment (
