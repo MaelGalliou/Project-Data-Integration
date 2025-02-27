@@ -1,8 +1,9 @@
 import pandas as pd
 from sqlalchemy import create_engine
 
+#Replace USERNAME and PASSWORD by your username and password to connect to the Data Warehouse
 engine = create_engine(
-    'mysql+pymysql://avnadmin:AVNS_KWg-ilnmRw4cWXWyZia@mysql-dataint-project-2k25-sachoun32-b208.g.aivencloud.com:14062/data-warehouse',
+    'mysql+pymysql://USERNAME:PASSWORD@mysql-dataint-project-2k25-sachoun32-b208.g.aivencloud.com:14062/data-warehouse',
     connect_args={"ssl": {}}
 )
 
