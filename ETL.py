@@ -42,5 +42,4 @@ fact_trips.columns = ['vendor_id', 'tpep_pickup_datetime', 'tpep_dropoff_datetim
                       'improvement_surcharge', 'congestion_surcharge', 'total_amount']
 
 fact_trips.to_sql('fact_trips', engine, if_exists='append', index=False)
-
 print("Data Loaded Successfully!")
