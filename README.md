@@ -18,8 +18,6 @@ The goal of this project is to design and implement a Data Warehouse (DW) and ex
 - **Graph Data Science (GDS)**: For advanced graph analysis
 
 ## 📂 Project Structure
-
-## 📂 Structure du projet
 ```
 📦 data-warehouse-project
  ┣ 📂 SQL                # Queries for the Data Warehouse
