@@ -91,10 +91,55 @@ MERGE (t)-[:PAID_FOR {
 
 ////////////////// View Relations //////////////////
 
+// 1️⃣ Average and Maximum Trip Distance
+MATCH (t:Trip)
+RETURN AVG(t.trip_distance) AS average_distance, 
+       MAX(t.trip_distance) AS max_distance;
 
+
+// 2️⃣ Number of Trips per Vendor
+MATCH (v:Vendor)-[:PROVIDED]->(t:Trip)
+RETURN v.vendor_id, COUNT(t) AS trip_count
+ORDER BY trip_count DESC;
+
+
+// 3️⃣ Top 5 Most Frequent Trip Routes
+MATCH (t:Trip)-[:STARTED_AT]->(start:Location), (t)-[:ENDED_AT]->(end:Location)
+RETURN start.location_id AS start_location, end.location_id AS end_location, COUNT(t) AS trip_count
+ORDER BY trip_count DESC
+LIMIT 5;
+
+
+// 4️⃣ Number of Trips by Passenger Count
+MATCH (t:Trip)-[:HAS_PASSENGERS]->(p:PassengerGroup)
+RETURN p.passenger_count, COUNT(t) AS trip_count
+ORDER BY p.passenger_count;
+
+
+// 5️⃣ Total Revenue by Payment Type
+MATCH (t:Trip)-[r:PAID_FOR]->(p:PaymentType)
+RETURN p.payment_type_description, SUM(r.total_amount) AS total_revenue, COUNT(t) AS trip_count
+ORDER BY total_revenue DESC;
+
+
+// 6️⃣ Top 10 Most Frequent Departure Locations
+MATCH (t:Trip)-[:STARTED_AT]->(l:Location)
+RETURN l.location_id, COUNT(t) AS departure_count
+ORDER BY departure_count DESC
+LIMIT 10;
+
+
+// 7️⃣ Top 10 Most Frequent Arrival Locations
+MATCH (t:Trip)-[:ENDED_AT]->(l:Location)
+RETURN l.location_id, COUNT(t) AS arrival_count
+ORDER BY arrival_count DESC
+LIMIT 10;
+
+
+// 8️⃣ Details of Trips from Location 48 to Location 107
 MATCH (t:Trip)-[:STARTED_AT]->(start:Location {location_id: '48'})
 MATCH (t)-[:ENDED_AT]->(end:Location {location_id: '107'})
-OPTIONAL MATCH (t)-[:PROVIDED]->(v:Vendor)
+OPTIONAL MATCH (v:Vendor)-[:PROVIDED]->(t)
 OPTIONAL MATCH (t)-[:HAS_PASSENGERS]->(p:PassengerGroup)
 OPTIONAL MATCH (t)-[:PAID_FOR]->(pay:PaymentType)
-RETURN t, start, end, v, p, pay
+RETURN t, start, end, v, p, pay;
