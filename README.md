@@ -1,76 +1,81 @@
 # 📊 Data Warehouse & NoSQL Project
 
-## 🏆 Objectif
-Le but de ce projet est de concevoir et implémenter un Data Warehouse (DW) et d'explorer l'utilisation des technologies NoSQL pour gérer des données hétérogènes. Nous utilisons **Neo4j** et **Cypher** pour la représentation des données sous forme de graphes.
+## 🏆 Objective
+The goal of this project is to design and implement a Data Warehouse (DW) and explore the use of NoSQL technologies to manage heterogeneous data. We use **Neo4j** and **Cypher** for graph-based data representation.
 
-## 📌 Fonctionnalités principales
-- Intégration et transformation de données provenant de sources hétérogènes
-- Modélisation des données sous forme de graphe dans Neo4j
-- Requêtage avancé avec Cypher
-- Visualisation des relations et exploration des données
-- Analyse de clustering et gestion de Big Data
+## 📌 Key Features
+- Data integration and transformation from heterogeneous sources
+- Data modeling in graph form in Neo4j
+- Advanced querying with Cypher
+- Visualization of relationships and data exploration
+- Clustering analysis and Big Data management
 
-## 🛠 Technologies utilisées
-- **Neo4j** : Base de données orientée graphe
-- **Cypher** : Langage de requête pour Neo4j
-- **Python** : Pour l'extraction et le traitement des données
-- **Pandas** : Manipulation des données tabulaires
-- **Graph Data Science (GDS)** : Pour l'analyse avancée des graphes
+## 🛠 Technologies Used
+- **Neo4j**: Graph database
+- **Cypher**: Query language for Neo4j
+- **Python**: For data extraction and processing
+- **Pandas**: For handling tabular data
+- **Graph Data Science (GDS)**: For advanced graph analysis
+
+## 📂 Project Structure
 
 ## 📂 Structure du projet
 ```
 📦 data-warehouse-project
- ┣ 📂 data                # Jeux de données utilisés
- ┣ 📂 scripts             # Scripts de transformation et de chargement
- ┣ 📂 notebooks           # Analyses et visualisations sous Jupyter
- ┣ 📂 neo4j               # Configuration et requêtes Cypher
- ┣ 📜 README.md           # Documentation du projet
- ┣ 📜 requirements.txt    # Dépendances Python
+ ┣ 📂 SQL                # Queries for the Data Warehouse
+ ┣ 📂 df_for_Neo4j       # Relations and Nodes for Cypher
+ ┣ 📜 README.md          # Documentation of the project
+ ┣ 📜 requirements.txt   # Python requirements
+ ┣ 📜 graph.cypher       # Queries for cypher
+ ┣ 📜 ml2.ipynb          # Machine learning for k-means algo
+ ┣ 📜 prep_bdd.ipynb     
+ ┣ 📜 schema.md          # Star Schema for data integration
+ ┣ 📜 viz2.ipynb         # Data visualization
 ```
 
 ## 📥 Installation
-### 1️⃣ Prérequis
+### 1️⃣ Prerequisites
 - [Neo4j Desktop](https://neo4j.com/download/)
 - Python 3.8+
 
-### 2️⃣ Installation des dépendances
+### 2️⃣ Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3️⃣ Lancer Neo4j
-#### Avec Neo4j Desktop :
-- Créez une base de données locale
-- Configurez les identifiants (**neo4j / password**)
-- Activez le plugin Graph Data Science (GDS)
+### 3️⃣ Running Neo4j
+#### Using Neo4j Desktop:
+- Create a local database
+- Set the credentials (**neo4j / password**)
+- Enable the Graph Data Science (GDS) plugin
 
-## 🚀 Utilisation
-### Charger les données dans Neo4j
-Exécutez le script de chargement des données :
+## 🚀 Usage
+### Loading Data into Neo4j
+Run the data loading script:
 ```bash
 python scripts/load_data.py
 ```
 
-### Exécuter des requêtes Cypher
-Accédez à Neo4j Browser et testez des requêtes comme :
+### Running Cypher Queries
+Access Neo4j Browser and run queries like:
 ```cypher
 MATCH (n) RETURN n LIMIT 10;
 ```
 
-## 📈 Analyse et Visualisation
-Les notebooks Jupyter contiennent des analyses de clustering et de visualisation des graphes. Pour les exécuter :
+## 📈 Data Analysis and Visualization
+The Jupyter notebooks contain clustering analysis and graph visualizations. To run them:
 ```bash
 jupyter notebook
 ```
 
-## 📌 Auteurs
+## 📌 Authors
 - **Nom 1** (@GuillaumeDeSaintEtienne)
 - **Nom 2** (@MaelGalliou)
 - **Nom 3** (@Sachafrft)
 - **Nom 4** (@emiliengodet)
 
 ## 📜 Licence
-Ce projet est sous licence MIT. Vous êtes libre de l'utiliser et de le modifier selon vos besoins.
+This project is licensed under the MIT License. You are free to use and modify it as needed.
 
 ---
-🚀 **Bon projet et bonne exploration des données !**
+🚀 **Happy project and enjoy data exploration !**
